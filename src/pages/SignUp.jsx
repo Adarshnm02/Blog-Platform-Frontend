@@ -1,7 +1,15 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Mail } from "lucide-react";
-
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "../components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpSchema } from "../utils/Validations";
+import { signup } from "../Api/UserApi";
+import { setUserInfo } from "../redux/UserSlice";
 import {
   Card,
   CardContent,
@@ -10,10 +18,41 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    mode: "onTouched",
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+
+      const response = await signup(data);
+      if (response?.status == 200) {
+        localStorage.setItem('token', response.data.token)
+        dispatch(setUserInfo(response.data.data));
+        toast.success(response.data.message);
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-md mx-auto shadow-lg">
@@ -25,6 +64,7 @@ export default function SignUp() {
             Enter your details below to create your account and get started
           </CardDescription>
         </CardHeader>
+
         <CardContent className="grid gap-4">
           <Button
             variant="outline"
@@ -33,6 +73,7 @@ export default function SignUp() {
             <Mail className="mr-2 h-4 w-4" />
             Sign up with Google
           </Button>
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-gray-300 dark:border-gray-600" />
@@ -43,46 +84,73 @@ export default function SignUp() {
               </span>
             </div>
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              placeholder="Enter your name"
-              type="text"
-              autoCapitalize="words"
-              autoComplete="name"
-              className="bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 dark:focus:ring-blue-500"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              placeholder="Enter your email"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              className="bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 dark:focus:ring-blue-500"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              placeholder="Create a password"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="new-password"
-              autoCorrect="off"
-              className="bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 dark:focus:ring-blue-500"
-            />
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-2">
+              <Label htmlFor="name" className="mt-2">
+                Name
+              </Label>
+              <Input
+                id="name"
+                name="name"
+                {...register("name")}
+                placeholder="Enter your name"
+                type="text"
+                autoCapitalize="words"
+                autoComplete="name"
+                className="bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 dark:focus:ring-blue-500"
+              />
+              {errors.name && (
+                <p className="text-red-500">{errors.name.message}</p>
+              )}{" "}
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="email" className="mt-1">
+                Email
+              </Label>
+              <Input
+                id="email"
+                placeholder="Enter your email"
+                type="email"
+                name="email"
+                {...register("email")}
+                autoCapitalize="none"
+                autoComplete="email"
+                autoCorrect="off"
+                className="bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 dark:focus:ring-blue-500"
+              />
+              {errors.email && (
+                <p className="text-red-500">{errors.email.message}</p>
+              )}
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="password" className="mt-2">
+                Password
+              </Label>
+              <Input
+                id="password"
+                placeholder="Create a password"
+                type="password"
+                name="password"
+                {...register("password")}
+                autoCapitalize="none"
+                autoComplete="new-password"
+                autoCorrect="off"
+                className="bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 dark:focus:ring-blue-500"
+              />
+              {errors.password && (
+                <p className="text-red-500">{errors.password.message}</p>
+              )}
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 mt-4"
+            >
+              Create account
+            </button>
+          </form>
         </CardContent>
+
         <CardFooter className="flex flex-col space-y-4">
-          <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
-            Create account
-          </Button>
           <p className="text-center text-sm text-gray-500 dark:text-gray-400">
             By creating an account, you agree to our{" "}
             <a

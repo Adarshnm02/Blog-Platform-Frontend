@@ -1,10 +1,10 @@
-// import { configureStore } from '@reduxjs/toolkit';
-// // import thunk from 'redux-thunk'; 
-// // import rootReducer from '../reducers';
+import { configureStore } from '@reduxjs/toolkit';
+import userReducer from './UserSlice'
 
-// const store = configureStore({
-//   // reducer: '',
-// //   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk), // Add `thunk` middleware manually
-// });
+const store = configureStore({
+    reducer: {
+        user : userReducer
+    }
+})
 
-// export { store };
+export default store;
