@@ -43,7 +43,7 @@ export default function SignUp() {
 
       const response = await signup(data);
       if (response?.status == 200) {
-        localStorage.setItem('token', response.data.token)
+        localStorage.setItem("token", response.data.token);
         dispatch(setUserInfo(response.data.data));
         toast.success(response.data.message);
         navigate("/login");
@@ -54,10 +54,10 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Card className="w-full max-w-md mx-auto shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+      <Card className="w-full max-w-md mx-auto shadow-2x1">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-extrabold text-center bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-extrabold text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             Create an account
           </CardTitle>
           <CardDescription className="text-center text-gray-500 dark:text-gray-400">
@@ -84,7 +84,7 @@ export default function SignUp() {
               </span>
             </div>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid gap-2">
               <Label htmlFor="name" className="mt-2">
                 Name
@@ -143,7 +143,7 @@ export default function SignUp() {
             </div>
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 mt-4"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-2 px-4 rounded-md transition-all duration-200"
             >
               Create account
             </button>

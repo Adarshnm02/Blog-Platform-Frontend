@@ -2,11 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-const UserLogout = () => {
+const UserLogin = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
-  console.log("Logout protect ", userInfo);
-  
-  return !userInfo ? <Outlet /> : <Navigate to="/" />;
+  console.log("From login protector ", userInfo)
+
+  return userInfo ? <Outlet /> : <Navigate to="/login" />;
 };
 
-export default UserLogout;
+export default UserLogin;

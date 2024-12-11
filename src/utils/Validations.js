@@ -13,3 +13,14 @@ export const signUpSchema = z.object({
         message: "Password must contain special characters."
     })
 })
+
+export const loginSchema = z.object({
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(6, "Password should be at least 6 characters").refine(s => /[a-zA-Z]/.test(s), {
+        message: "Password must contain letters"
+    }).refine(s => /\d/.test(s), {
+        message: "Password must contain numbers"
+    }).refine(s => /[!@#$%^&*(),.?":{}|<>]/.test(s), {
+        message: "Password must contain special characters."
+    })
+})
