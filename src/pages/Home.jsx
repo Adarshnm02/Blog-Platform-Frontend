@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Input } from "@/components/ui/input"
-import { Search, Menu } from 'lucide-react'
 
 // This would typically come from your API or database
 const blogPosts = [
@@ -41,29 +39,6 @@ const blogPosts = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/home" className="text-2xl font-bold text-purple-600">BlogHub</Link>
-          <nav className="hidden md:flex space-x-4">
-            <Link href="/home" className="text-gray-600 hover:text-purple-600">Home</Link>
-            <Link href="/home" className="text-gray-600 hover:text-purple-600">About</Link>
-            <Link href="/home" className="text-gray-600 hover:text-purple-600">Contact</Link>
-          </nav>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Input 
-                type="search" 
-                placeholder="Search..." 
-                className="pl-10 pr-4 py-2 rounded-full"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            </div>
-            <Button className="md:hidden" variant="ghost" size="icon">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </div>
-        </div>
-      </header>
 
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-extrabold text-center text-white mb-8">
@@ -98,18 +73,6 @@ export default function Home() {
           ))}
         </div>
       </main>
-
-      <footer className="bg-white mt-12">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-600 mb-4 md:mb-0">&copy; 2023 BlogHub. All rights reserved.</p>
-            <nav className="flex space-x-4">
-              <Link href="/privacy" className="text-gray-600 hover:text-purple-600">Privacy Policy</Link>
-              <Link href="/terms" className="text-gray-600 hover:text-purple-600">Terms of Service</Link>
-            </nav>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
