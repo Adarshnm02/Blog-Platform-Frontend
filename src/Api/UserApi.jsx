@@ -22,7 +22,6 @@ export const login = async(data) => {
         const response = await axiosInstance.post('/api/auth/login', data)
         return response
     } catch (error) {
-        console.log(error);
         toast.error(error.response.data.message)
     }
 }

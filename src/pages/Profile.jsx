@@ -13,8 +13,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useSelector } from 'react-redux'
+
 
 export default function Profile() {
+
+  const userInfo = useSelector((state) => state.user.userInfo)
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4">
       <Card className="w-full max-w-3xl mx-auto shadow-2xl">
@@ -35,7 +39,7 @@ export default function Profile() {
             <div className="flex items-center space-x-4">
               <User className="text-gray-500" />
               <div>
-                <p className="font-medium">John Doe</p>
+                <p className="font-medium">{userInfo.name}</p>
                 <p className="text-sm text-gray-500">Full Name</p>
               </div>
             </div>

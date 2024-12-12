@@ -151,22 +151,30 @@ export default function SignUp() {
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-4">
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-            By creating an account, you agree to our{" "}
+          <div className="text-center text-sm">
+            Already have an account?{" "}
+            <span
+              className="text-purple-600 hover:text-pink-600 font-semibold cursor-pointer transition-colors duration-200"
+              onClick={() => navigate("/login")}
+            >
+              Sign in
+            </span>
+          </div>
+          <p className="text-center text-xs text-gray-500 dark:text-gray-400">
+            By signing up, you agree to our{" "}
             <a
               href="#"
               className="font-medium text-purple-600 dark:text-blue-400 hover:underline"
             >
-              Terms of Service
+              Terms
             </a>{" "}
-            and{" "}
+            &{" "}
             <a
               href="#"
               className="font-medium text-purple-600 dark:text-blue-400 hover:underline"
             >
               Privacy Policy
             </a>
-            .
           </p>
         </CardFooter>
       </Card>

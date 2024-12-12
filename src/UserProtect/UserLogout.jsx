@@ -1,10 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector} from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
 const UserLogout = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
-  console.log("Logout protect ", userInfo);
+  useEffect(() => {
+    console.log('User info updated:', userInfo);
+  }, [userInfo]);
   
   return !userInfo ? <Outlet /> : <Navigate to="/" />;
 };

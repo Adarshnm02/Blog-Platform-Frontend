@@ -39,17 +39,15 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
-
       const response = await login(data);
       if (response?.status == 200) {
         localStorage.setItem("token", response.data.token);
-        dispatch(setUserInfo(response.data.data));
+        dispatch(setUserInfo(response.data));
         toast.success(response.data.message);
         navigate("/home");
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error From Login onSubmit",error);
     }
   };
 
@@ -111,13 +109,22 @@ export default function Login() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter></CardFooter>
-        <div className="text-center pb-4">
-          <a href="#" className="text-sm text-gray-600 hover:text-gray-800">
-            Forgot password?
-          </a>
+        <CardFooter className="flex flex-col space-y-4 text-center">
+        <a href="#" className="text-sm text-gray-600 hover:text-gray-800">
+          Forgot password?
+        </a>
+        <div className="text-sm">
+          Don't have an account?{' '}
+          <span 
+            className="text-purple-600 hover:text-pink-600 font-semibold cursor-pointer transition-colors duration-200"
+            onClick={() => navigate('/signup')}
+          >
+            Sign Up
+          </span>
         </div>
-      </Card>
+      </CardFooter>
+  
+        </Card>
     </div>
   );
 }
