@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Plus } from 'lucide-react'
+import { CreatePostModal } from './CreatePostModal';
 
-// This would typically come from your API or database
 const blogPosts = [
   {
     id: 1,
@@ -73,6 +74,17 @@ export default function Home() {
           ))}
         </div>
       </main>
+      <div className="fixed bottom-8 right-8">
+        <CreatePostModal/>
+          <Button 
+          onClick={<CreatePostModal/>}
+            size="lg" 
+            className="rounded-full w-16 h-16 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+          >
+            <Plus className="w-8 h-8" />
+            <span className="sr-only">Create new post</span>
+          </Button>
+      </div>
     </div>
   )
 }

@@ -4,10 +4,13 @@ import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import Home from "../pages/Home";
-import CreateEditPost from "../pages/CreateEditPost";
+// import CreateEditPost from "../pages/CreateEditPost";
 import UserLogin from "../UserProtect/UserLogin";
 import UserLogout from "../UserProtect/UserLogout";
 import UserLayout from "../Layout/UserLayout";
+// import { CreatePostModal } from "../pages/CreatePostModal";
+
+
 
 const UserRoutes = () => {
   return (
@@ -15,7 +18,7 @@ const UserRoutes = () => {
       <Routes>
         <Route>
           <Route element={<UserLogin />}>
-            <Route path="/create" element={<CreateEditPost />} />
+            {/* <Route path="/create" element={<CreatePostModal />} /> */}
             <Route element={<UserLayout />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/home" element={<Home />} />
