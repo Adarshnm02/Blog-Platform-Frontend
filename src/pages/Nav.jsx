@@ -12,11 +12,8 @@ export default function Nav() {
   const dispatch = useDispatch()
 
   const handleLogout = async () => {
-    console.log('Logging out...');
     dispatch(logoutUser())
-    console.log('Token removed from local storage:', localStorage.getItem('token'));
     localStorage.removeItem('token')
-    console.log('Navigating to login page...');
     navigate('/login')
   }
 
@@ -26,7 +23,7 @@ export default function Nav() {
         <Link to="/home" className="text-2xl font-bold text-purple-600">
           BlogHub
         </Link>
-        <nav className="hidden md:flex space-x-4">
+        {/* <nav className="hidden md:flex space-x-4">
           <Link to="/home" className="text-gray-600 hover:text-purple-600">
             Home
           </Link>
@@ -36,7 +33,7 @@ export default function Nav() {
           <Link to="/home" className="text-gray-600 hover:text-purple-600">
             Contact
           </Link>
-        </nav>
+        </nav> */}
         <div className="flex items-center space-x-4">
           <div className="relative">
             <Input

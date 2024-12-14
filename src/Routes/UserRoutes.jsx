@@ -8,6 +8,7 @@ import Home from "../pages/Home";
 import UserLogin from "../UserProtect/UserLogin";
 import UserLogout from "../UserProtect/UserLogout";
 import UserLayout from "../Layout/UserLayout";
+import PostView from "../pages/PostView";
 // import { CreatePostModal } from "../pages/CreatePostModal";
 
 
@@ -23,6 +24,7 @@ const UserRoutes = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/home" element={<Home />} />
               <Route path="/" element={<Home />} />
+              <Route path="/post/:id" element={<PostView />} />
             </Route>
           </Route>
           <Route element={<UserLogout />}>
