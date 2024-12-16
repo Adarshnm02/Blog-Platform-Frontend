@@ -19,14 +19,18 @@ const UserRoutes = () => {
       <Routes>
         <Route>
           <Route element={<UserLogin />}>
+
             {/* <Route path="/create" element={<CreatePostModal />} /> */}
             <Route element={<UserLayout />}>
-              <Route path="/profile" element={<Profile />} />
               <Route path="/home" element={<Home />} />
               <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/post/:id" element={<PostView />} />
             </Route>
+
           </Route>
+
+
           <Route element={<UserLogout />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />

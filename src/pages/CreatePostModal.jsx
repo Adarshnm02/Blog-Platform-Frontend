@@ -16,6 +16,8 @@ import { useForm } from "react-hook-form";
 import { BlogPost } from "../Api/UserApi";
 import { toast } from "react-toastify";
 import axios from "axios";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { postCreationSchema } from "../utils/Validations";
 
 export function CreatePostModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +31,11 @@ export function CreatePostModal() {
     formState: { errors },
     reset,
   } = useForm();
+ 
+  // {
+  //   resolver: zodResolver(postCreationSchema),
+  //   mode: "onTouched",
+  // }
 
   const coverImage = watch("coverImage");
   const optionalImages = watch("optionalImages");
@@ -107,6 +114,7 @@ export function CreatePostModal() {
       toast.error("Failed to create post");
     }
   };
+console.log("Erors from coreae",errors);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

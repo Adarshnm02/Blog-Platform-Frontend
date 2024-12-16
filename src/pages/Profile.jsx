@@ -9,8 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSelector } from "react-redux";
 
@@ -18,7 +17,7 @@ export default function Profile() {
   const userInfo = useSelector((state) => state.user.userInfo);
   console.log("This is userinfo form profile: ", userInfo)
   return (
-      <div className="flex  justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-7">
+      <div className="flex justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-7">
         <Card className="w-full max-w-3xl mx-auto shadow-2xl">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
@@ -47,41 +46,6 @@ export default function Profile() {
                   <p className="font-medium">{userInfo.user.email}</p>
                   <p className="text-sm text-gray-500">Email</p>
                 </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Phone className="text-gray-500" />
-                <div>
-                  <p className="font-medium">+1 (555) 123-4567</p>
-                  <p className="text-sm text-gray-500">Phone</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <MapPin className="text-gray-500" />
-                <div>
-                  <p className="font-medium">New York, USA</p>
-                  <p className="text-sm text-gray-500">Location</p>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Account Settings</h3>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label htmlFor="two-factor">Two-factor authentication</Label>
-                  <p className="text-sm text-gray-500">
-                    Add an extra layer of security to your account
-                  </p>
-                </div>
-                <Switch id="two-factor" />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label htmlFor="notifications">Email notifications</Label>
-                  <p className="text-sm text-gray-500">
-                    Receive email updates about your account activity
-                  </p>
-                </div>
-                <Switch id="notifications" defaultChecked />
               </div>
             </div>
           </CardContent>

@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/UserSlice";
+import { setSearchQuery } from "../redux/searchSlice";
 
 export default function Nav() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const searchQuery = useSelector((state) => state.search.query);
 
   const handleLogout = async () => {
-    dispatch(logoutUser())
-    localStorage.removeItem('token')
-    navigate('/login')
-  }
+    dispatch(logoutUser());
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  const handleSearch = (e) => {
+    dispatch(setSearchQuery(e.target.value));
+    if(window.location.pathname !== "/home"){
+      navigate("/home")
+    }
+  };
 
   return (
     <header className="bg-white shadow-md sticky top-0 left-0 w-full z-10">
@@ -40,6 +49,8 @@ export default function Nav() {
               type="search"
               placeholder="Search..."
               className="pl-10 pr-4 py-2 rounded-full"
+              value={searchQuery}
+              onChange={handleSearch}
             />
             <Search
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"

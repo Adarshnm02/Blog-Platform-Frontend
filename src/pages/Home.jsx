@@ -4,10 +4,12 @@ import { Plus } from "lucide-react";
 import { CreatePostModal } from "./CreatePostModal";
 import { getBlog } from "../Api/UserApi";
 import BlogCard from "./BlogCard";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [blogData, setBlogData] = React.useState([]);
+  const [blogData, setBlogData] = useState([]);
+  const searchQuery = useSelector((state) => state.search.query);
 
   const getBlogData = async () => {
     try {
@@ -22,17 +24,32 @@ export default function Home() {
     getBlogData();
   }, []);
 
+    const filteredBlogData = blogData.filter(
+      (post) =>
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.description.toLowerCase().includes(searchQuery.toLowerCase()) 
+        // || post.author.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-extrabold text-center text-white mb-8">
           Welcome to BlogHub
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogData.map((post) => (
-            <BlogCard key={post._id} post={post} />
-          ))}
-        </div>
+        {filteredBlogData.length === 0 ? (
+          <p className="text-center text-white text-xl">
+            {searchQuery
+              ? `No results found for "${searchQuery}"`
+              : "No blog posts available"}
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredBlogData.map((post) => (
+              <BlogCard key={post._id} post={post} />
+            ))}
+          </div>
+        )}
       </main>
       <div className="fixed bottom-8 right-8">
         <CreatePostModal
