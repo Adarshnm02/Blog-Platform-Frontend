@@ -1,6 +1,6 @@
 import axiosInstance from "../Configuration/axiosInstance"
-const token = localStorage.getItem('token')
 import { toast } from 'react-toastify';
+const token = localStorage.getItem('token')
 
 
 export const signup = async(data) => {
@@ -67,5 +67,23 @@ export const getPost = async(postId) => {
     } catch (error) {
         console.error('Error fetching post:', error);
         toast.error(error.response?.data?.message || 'Failed to fetch post');
+    }
+}
+
+
+export const getUserPosts = async() => {
+    try {
+        if(token){
+            const response = await axiosInstance.get(`/api/posts/getUserPosts`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            return response.data
+        }
+    } catch (error) {
+        console.error("Error fetching post:", error);
+        toast.error(error.response?.data?.message || 'Failed to fetch user posts');
+        return [];
     }
 }
