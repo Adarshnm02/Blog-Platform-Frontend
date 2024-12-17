@@ -7,7 +7,7 @@ import BlogCard from "./BlogCard";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [blogData, setBlogData] = useState([]);
   const searchQuery = useSelector((state) => state.search.query);
 
@@ -24,12 +24,11 @@ export default function Home() {
     getBlogData();
   }, []);
 
-    const filteredBlogData = blogData.filter(
-      (post) =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.description.toLowerCase().includes(searchQuery.toLowerCase()) 
-        // || post.author.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+  const filteredBlogData = blogData.filter(
+    (post) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
@@ -52,12 +51,11 @@ export default function Home() {
         )}
       </main>
       <div className="fixed bottom-8 right-8">
-        <CreatePostModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
+        <CreatePostModal getBlogData={getBlogData} />
+        {/* isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)} */}
         <Button
-          onClick={() => setIsModalOpen(true)}
+          // onClick={() => setIsModalOpen(true)}
           size="lg"
           className="rounded-full w-16 h-16 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
         >

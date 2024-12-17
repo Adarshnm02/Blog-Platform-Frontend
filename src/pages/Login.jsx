@@ -47,7 +47,7 @@ export default function Login() {
         navigate("/home");
       }
     } catch (error) {
-      console.log("Error From Login onSubmit",error);
+      console.log("Error From Login onSubmit", error);
     }
   };
 
@@ -110,21 +110,20 @@ export default function Login() {
           </form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4 text-center">
-        <a href="#" className="text-sm text-gray-600 hover:text-gray-800">
-          Forgot password?
-        </a>
-        <div className="text-sm">
-          Don't have an account?{' '}
-          <span 
-            className="text-purple-600 hover:text-pink-600 font-semibold cursor-pointer transition-colors duration-200"
-            onClick={() => navigate('/signup')}
-          >
-            Sign Up
-          </span>
-        </div>
-      </CardFooter>
-  
-        </Card>
+          <a href="#" className="text-sm text-gray-600 hover:text-gray-800">
+            Forgot password?
+          </a>
+          <div className="text-sm">
+            Don't have an account?{" "}
+            <span
+              className="text-purple-600 hover:text-pink-600 font-semibold cursor-pointer transition-colors duration-200"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </span>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

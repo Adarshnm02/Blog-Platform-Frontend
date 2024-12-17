@@ -19,8 +19,8 @@ import axios from "axios";
 // import { zodResolver } from "@hookform/resolvers/zod";
 // import { postCreationSchema } from "../utils/Validations";
 
-export function CreatePostModal() {
-  const [isOpen, setIsOpen] = useState(false);
+export function CreatePostModal({ getBlogData }) {
+  const [isOpen, onClose] = useState(false);
   const [coverImagePreview, setCoverImagePreview] = useState(null);
   const [optionalImagesPreview, setOptionalImagesPreview] = useState([]);
 
@@ -31,7 +31,7 @@ export function CreatePostModal() {
     formState: { errors },
     reset,
   } = useForm();
- 
+
   // {
   //   resolver: zodResolver(postCreationSchema),
   //   mode: "onTouched",
@@ -79,7 +79,6 @@ export function CreatePostModal() {
   const onSubmit = async (data) => {
     try {
       const imageUploads = [];
-
       if (data.coverImage?.[0]) {
         imageUploads.push(uploadImageToCloudinary(data.coverImage[0]));
       }
@@ -92,7 +91,6 @@ export function CreatePostModal() {
       }
 
       const uploadedImageURLs = await Promise.all(imageUploads);
-
       const [coverImageURL, ...optionalImagesURLs] = uploadedImageURLs;
 
       const formData = {
@@ -108,16 +106,16 @@ export function CreatePostModal() {
         toast.success("Blog Posted Successfully");
       }
       reset();
-      setIsOpen(false);
+      onClose(false);
+      getBlogData();
     } catch (error) {
       console.error("Error submitting from:", error);
       toast.error("Failed to create post");
     }
   };
-console.log("Erors from coreae",errors);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild>
         <Button
           size="lg"

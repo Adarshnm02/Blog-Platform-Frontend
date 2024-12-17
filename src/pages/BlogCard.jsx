@@ -1,15 +1,29 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CalendarIcon, ClockIcon } from 'lucide-react';
+import { CalendarIcon, ClockIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 function BlogCard({ post }) {
-  const { _id, title, description, coverImage, author, createdAt, readTime, category} = post;
+  const {
+    _id,
+    title,
+    description,
+    coverImage,
+    author,
+    createdAt,
+    readTime,
+    category,
+  } = post;
 
   return (
     <motion.div
@@ -44,15 +58,22 @@ function BlogCard({ post }) {
           <div className="flex items-center space-x-4">
             <Avatar className="h-10 w-10">
               <AvatarImage
-                src={`https://api.dicebear.com/6.x/initials/svg?seed=${author?.name ?? "Anonymous"}`}
+                src={`https://api.dicebear.com/6.x/initials/svg?seed=${
+                  author?.name ?? "Anonymous"
+                }`}
                 alt={author?.name ?? "Anonymous"}
               />
               <AvatarFallback className="bg-primary text-primary-foreground">
-                {(author?.name ?? "AN").split(" ").map((n) => n[0]).join("")}
+                {(author?.name ?? "AN")
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{author?.name ?? "Anonymous"}</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                {author?.name ?? "Anonymous"}
+              </p>
               {createdAt && (
                 <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
                   <CalendarIcon className="mr-1 h-3 w-3" />

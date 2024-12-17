@@ -11,32 +11,68 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { getUserPosts } from "../Api/UserApi";
+import EditPostModal from "./EditPostModal";
+import DeletePostModal from "./DeletePostModal";
 
 const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) return text;
-  return text.substr(0, maxLength) + '...';
+  return text.substr(0, maxLength) + "...";
 };
 
 export default function Profile() {
-
   const userInfo = useSelector((state) => state.user.userInfo);
-  const [userPosts, setUserPosts] = useState([])
+  const [userPosts, setUserPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchUserPosts = async() => {
-      try {
-        const response = await getUserPosts()
-        setUserPosts(response)
-      } catch (error) {
-        console.log("Error fetching user posts:", error)
-      }
+  const fetchUserPosts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getUserPosts();
+      setUserPosts(response);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching user posts:", error);
+      setError("Failed to load posts");
+      toast.error("Could not fetch your posts");
+    } finally {
+      setIsLoading(false);
     }
-    fetchUserPosts()
+  };
+  useEffect(() => {
+    fetchUserPosts();
   }, []);
-  
-  
-  
+
+  const handlePostUpdate = async (updatedPost) => {
+    try {
+      setUserPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === updatedPost._id ? updatedPost : post
+        )
+      );
+      await fetchUserPosts();
+    } catch (error) {
+      console.error("Error updating post in state:", error);
+      toast.error("Could not update post");
+    }
+  };
+
+  const handlePostDelete = (postId) => {
+    setUserPosts((prevPosts) =>
+      prevPosts.filter((post) => post._id !== postId)
+    );
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto space-y-8">
@@ -49,7 +85,7 @@ export default function Profile() {
               </Avatar>
             </div>
             <CardTitle className="text-3xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              {userInfo.user.name || 'Username'}
+              {userInfo.user.name || "Username"}
             </CardTitle>
             <CardDescription>Manage your profile and settings</CardDescription>
           </CardHeader>
@@ -90,7 +126,9 @@ export default function Profile() {
                   <CardTitle>{post.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">{truncateText(post.description, 100)}</p>
+                  <p className="text-gray-600">
+                    {truncateText(post.description, 100)}
+                  </p>
                 </CardContent>
                 {post.coverImage && (
                   <img
@@ -99,17 +137,28 @@ export default function Profile() {
                     className="w-full h-48 object-cover"
                   />
                 )}
-                <CardFooter>
-                  <Button variant="link" className="text-purple-600 hover:text-purple-800">
-                    View And Edit
+                <CardFooter className="shadow-md">
+                  <EditPostModal post={post} onSave={handlePostUpdate} />
+                  <Button
+                    variant="link"
+                    className="text-purple-600 hover:text-purple-800"
+                  >
+                    View Post
                   </Button>
+                  <DeletePostModal
+                    postId={post._id}
+                    postImageUrls={[post.coverImage, ...post.optionalImages]}
+                    onDelete={handlePostDelete}
+                  />
                 </CardFooter>
               </Card>
             ))
           ) : (
             <Card>
               <CardContent>
-                <p className="text-gray-600 py-4">You haven't created any posts yet.</p>
+                <p className="text-gray-600 py-4">
+                  You haven't created any posts yet.
+                </p>
               </CardContent>
             </Card>
           )}
